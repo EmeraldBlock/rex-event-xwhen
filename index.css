@@ -1,5 +1,5 @@
 body {
-    margin: 0;
+    margin: unset;
     font-family: 'Source Sans 3', sans-serif;
     display: flex;
     flex-direction: column;
@@ -7,20 +7,193 @@ body {
     overflow-y: hidden;
 }
 
+/* header */
+
+header {
+    display: flex;
+    padding: 0 .5em;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5em;
+}
+
 h1 {
-    text-align: center;
-    margin: 0;
+    margin: unset;
     font-variant-caps: small-caps;
+    display: inline;
+}
+
+.mirror {
+    display: inline-block;
+    transform: scaleX(-1);
+}
+
+.hint {
+    color: #00000080;
 }
 
 main {
+    flex-grow: 1;
+    display: flex;
+    min-width: 0;
+    overflow-y: hidden;
+}
+
+/* config */
+
+.panel {
+    display: flex;
+    background-color: hsl(0 0 97);
+}
+
+.grip {
+    position: relative;
+    width: 30px;
+    flex-shrink: 0;
+    background-color: hsl(0 0 91);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.grip > h2 {
+    position: absolute;
+    top: 0;
+    writing-mode: vertical-rl;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #00000080;
+    font-size: unset;
+}
+
+.grip:hover {
+    background-color: hsl(0 0 88);
+}
+
+.grip::before {
+    content: "❮";
+}
+
+.grip:has(> :checked)::before {
+    content: "❯";
+}
+
+.grip > input {
+    display: none;
+}
+
+.grip:has(> :checked) + .config {
+    display: none;
+}
+
+h3 {
+    margin: unset;
+    text-align: center;
+}
+
+.config {
+    width: 20vw;
+    flex-shrink: 0;
+    /* border-right: solid 2px lightgray; */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.inputs > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inputs > label > input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: solid 2px gray;
+    padding: .2em;
+}
+
+.select {
+    display: block;
+}
+
+.select > output {
+    border: solid 2px gray;
+    background-color: white;
+    display: flex;
+    padding: 2px;
+    gap: 2px;
+    flex-wrap: wrap;
+}
+
+.select > output > label {
+    display: none;
+    --color: lightskyblue;
+    background-color: color-mix(in srgb, var(--color), white 50%);
+    padding: 0 .2em;
+    gap: .2em;
+}
+
+.select > output > label:has(:hover) {
+    background-color: color-mix(in srgb, var(--color), white 75%);
+}
+
+.select > output > label:has(> :checked) {
+    display: inline-flex;
+}
+
+.select input {
+    margin: unset;
+}
+
+.select > output > span {
+    background-color: lightgray;
+    display: inline-block;
+    padding: 0 .2em;
+}
+
+.select .options {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    border: solid 2px white;
+}
+
+.select:has(> output:focus) .options, .options:hover, .options:focus {
+    display: flex;
+}
+
+.select .options > label {
+    --color: lightskyblue;
+    background-color: color-mix(in srgb, var(--color), white 50%);
+    padding: 0 .2em;
+}
+
+.select .options > label:hover {
+    background-color: color-mix(in srgb, var(--color), white 75%);
+}
+
+.config p {
+    margin: unset;
+}
+
+/* calendar */
+
+.interface {
     overflow-x: scroll;
     user-select: none;
+    flex-grow: 1;
     --min: 1px;
     --height: 50px;
 }
 
 .calendar {
+    min-width: 100%;
     width: fit-content;
     height: 100%;
     display: flex;
@@ -28,7 +201,7 @@ main {
 }
 
 .pad {
-    background-color: rgb(246, 246, 246);
+    background-color: hsl(0 0 94);
     height: 80px;
     position: relative;
     overflow: hidden;
@@ -36,14 +209,15 @@ main {
 }
 
 .viewport {
+    flex-grow: 1;
     overflow-y: scroll;
 }
 
 .field {
     width: fit-content;
     position: relative;
-    height: 2000px;
-    width: 100vw;
+    min-height: 100%;
+    min-width: 100%;
     overflow-x: hidden;
 }
 

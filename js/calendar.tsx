@@ -10,6 +10,7 @@ export type CalendarEvent = {
     end: number,
     tags: string[],
     color: string,
+    keywords: string,
 };
 
 const intervals = [T.min*15, T.min*30, T.hr, T.hr*2, T.hr*6, T.hr*12, T.day];
@@ -100,13 +101,13 @@ export class Calendar {
             track.items.push(event);
             track.end = end;
         }
-        // TODO: don't do this here
         return tracks;
     }
 
     initEvents(events: CalendarEvent[]) {
         const eventsElem = this.getClass("events");
         this.tracks = this.getTracks(events).map(track => track.items);
+        eventsElem.replaceChildren();
         for (const track of this.tracks) {
             const telem = <div class="track" />;
             for (const { name, dorm, location, start, end, description, tags, group, color } of track) {
@@ -129,6 +130,7 @@ export class Calendar {
     }
 
     registerListeners() {
+        const clamped = (px: number) => clamp(px, Math.log2(mainElem.clientWidth/(this.end-this.start)*T.min), 3);
         const viewport = this.getClass("viewport");
         const mainElem = this.element;
         mainElem.addEventListener("mousemove", (event) => {
@@ -137,20 +139,27 @@ export class Calendar {
             mainElem.scrollBy(-event.movementX, 0);
         });
         mainElem.addEventListener("wheel", (event) => {
+            if (event.ctrlKey) return;
             event.preventDefault();
             const oldMinPx = this.minPx;
             this.minPx -= event.deltaY/200;
-            this.minPx = clamp(this.minPx, Math.log2(mainElem.clientWidth/(this.end-this.start)*T.min), 3);
+            this.minPx = clamped(this.minPx);
             mainElem.style.setProperty("--min", `${2 ** this.minPx}px`);
-            mainElem.scroll((mainElem.scrollLeft + event.clientX) * 2 ** (this.minPx - oldMinPx) - event.clientX, 0);
+            const x = event.clientX - mainElem.getBoundingClientRect().x;
+            mainElem.scroll((mainElem.scrollLeft + x) * 2 ** (this.minPx - oldMinPx) - x, 0);
             this.initMarkings();
         });
         mainElem.addEventListener("scroll", (event) => {
             this.initMarkings();
         });
-        window.addEventListener("resize", (event) => {
+        new ResizeObserver((entries) => {
+            const px = clamped(this.minPx);
+            if (px !== this.minPx) {
+                this.minPx = px;
+                mainElem.style.setProperty("--min", `${2 ** this.minPx}px`);
+            }
             this.initMarkings();
-        });
+        }).observe(mainElem);
     }
 
     init(events: CalendarEvent[]) {
@@ -158,9 +167,9 @@ export class Calendar {
         let end = Math.max(...events.map(event => event.end));
         this.start = mitDay(start);
         this.end = mitDay(end-1)+T.day;
-        this.initMarkings();
         const fieldElem = this.getClass("field");
-        fieldElem.style.width = `max(100vw, calc(${(this.end-this.start)/T.min}*var(--min)))`;
+        fieldElem.style.width = `calc(${(this.end-this.start)/T.min}*var(--min))`;
+        this.initMarkings();
         this.initEvents(events);
         this.getClass("field").style.height = `calc(${this.tracks.length}*var(--height))`;
         this.registerListeners();

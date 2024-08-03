@@ -10,18 +10,63 @@
     </head>
     <body>
         <header>
-            <h1>Rex Event Xwhen</h1>
+            <div>
+                <h1>Rex Event Xwhen</h1>
+                by
+                <a href="https://github.com/EmeraldBlock" target="_blank" rel="external noreferrer">Emerald Block</a>
+                ⋅
+                <a href="https://github.com/EmeraldBlock/rex-event-xwhen" target="_blank" rel="external noreferrer">source</a>
+            </div>
+            <div class="hint">
+                scroll to zoom, drag to move
+            </div>
+            <div>
+                <span class="mirror">🦕</span> roar 🦖
+            </div>
         </header>
         <main>
-            <div class="calendar">
-                <div class="pad">
-                    <div class="dates"></div>
-                    <div class="times"></div>
+            <div class="panel">
+                <label class="grip">
+                    <h2>config</h2>
+                    <input type="checkbox" />
+                </label>
+                <div class="config">
+                    <div class="inputs">
+                        <h3>filter</h3>
+                        <label>
+                            search
+                            <input type="text" id="search" placeholder="type..." />
+                        </label>
+                        <label>
+                            hosts
+                            <div id="hosts" class="select"></div>
+                        </label>
+                        <label>
+                            tags
+                            <div id="tags" class="select"></div>
+                        </label>
+                    </div>
+                    <div>
+                        <h3>about</h3>
+                        <p>
+                            Made as part of a friendly competition for who could build the best REX timeline viewer. Be sure to check out:<br />
+                            <a href="https://scidev5.github.io/eventful/" target="_blank" rel="external noreferrer">EVENTFUL by SciDev</a><br />
+                            <a href="https://knosmos.github.io/rexplorer/" target="_blank" rel="external noreferrer">REXplorer by knosmos</a>
+                        </p>
+                    </div>
                 </div>
-                <div class="viewport">
-                    <div class="field">
-                        <div class="events"></div>
-                        <div class="markings"></div>
+            </div>
+            <div class="interface">
+                <div class="calendar">
+                    <div class="pad">
+                        <div class="dates"></div>
+                        <div class="times"></div>
+                    </div>
+                    <div class="viewport">
+                        <div class="field">
+                            <div class="events"></div>
+                            <div class="markings"></div>
+                        </div>
                     </div>
                 </div>
             </div>
