@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "es2022",
+        "strict": true,
+        "sourceMap": true,
+        "outDir": "./build/",
+
+        "jsx": "react-jsx",
+        "jsxImportSource": "root",
+        "paths": {
+            "root/*": ["./js/*"],
+        },
+
+        "moduleResolution": "bundler",
+    },
+    "include": ["./js/**/*"],
+}

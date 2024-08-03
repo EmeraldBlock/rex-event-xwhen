@@ -1,0 +1,133 @@
+body {
+    margin: 0;
+    font-family: 'Source Sans 3', sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+    font-variant-caps: small-caps;
+}
+
+main {
+    overflow-x: scroll;
+    user-select: none;
+    --min: 1px;
+    --height: 50px;
+}
+
+.calendar {
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pad {
+    background-color: rgb(246, 246, 246);
+    height: 80px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.viewport {
+    overflow-y: scroll;
+}
+
+.field {
+    width: fit-content;
+    position: relative;
+    height: 2000px;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+.bar, .time {
+    position: absolute;
+    --alpha: 15%;
+}
+
+.bar.bold, .time.bold {
+    --alpha: 30%;
+    font-weight: bold;
+}
+
+.time {
+    bottom: 0;
+}
+
+.time > .tab {
+    width: 2em;
+    border-bottom: 2px solid rgb(from var(--color) r g b / var(--alpha));
+}
+
+.time > .hour {
+    width: max-content;
+}
+
+.time > .hour, .time > .tab {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform-origin: bottom right;
+    transform: rotate(45deg) translateY(2px);
+}
+
+.bar {
+    height: 100%;
+    width: 2px;
+    background-color: rgb(from var(--color) r g b / var(--alpha));
+}
+
+.date {
+    position: absolute;
+    top: 0;
+    text-align: center;
+    transform: translateX(-50%);
+    margin-top: 4px;
+    line-height: 1;
+    color: #00000080;
+}
+
+.events {
+    position: absolute;
+}
+
+.track {
+    height: var(--height);
+}
+
+.event {
+    --color: aquamarine;
+    --highlight: color-mix(in srgb, var(--color), white 25%);
+    position: absolute;
+    height: var(--height);
+    background-color: color-mix(in srgb, var(--color), white 50%);
+    border: 2px solid var(--color);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.event > .info {
+    height: min-content;
+    background-color: color-mix(in srgb, var(--color), white 75%);
+}
+
+.event:hover {
+    border: 2px solid var(--highlight);
+    background-color: color-mix(in srgb, var(--highlight), white 50%);
+    min-width: 16em;
+    height: min-content;
+    z-index: 1;
+}
+
+.event:hover > .info {
+    background-color: color-mix(in srgb, var(--highlight), white 75%);
+}
